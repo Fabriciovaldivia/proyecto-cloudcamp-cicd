@@ -2,7 +2,7 @@ name: CI Workflow
 on: [push]
 jobs:
   build:
-    name: Hello World
+    name: checkout 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -11,3 +11,9 @@ jobs:
         name: Echo greeting
       - run: ls -la
         name: List files
+  build2:
+    name: Hello World
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello World"
+        name: Echo greeting
