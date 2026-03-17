@@ -21,5 +21,8 @@ jobs:
           chmod +x gradlew
           ./gradlew build
           ./gradlew bootJar
-          find . -name "*.jar"
+      - name: Build Docker image
+        run: |
+          docker build -t proyecto-cloudcamp-cicd .
+          
           
