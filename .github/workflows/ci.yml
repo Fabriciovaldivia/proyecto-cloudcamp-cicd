@@ -19,7 +19,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: |
           chmod +x gradlew
-          ./gradlew tasks
+          ./gradlew build
           ./gradlew bootJar
-          find , -name "*.jar"
+          find . -name "*.jar"
           
