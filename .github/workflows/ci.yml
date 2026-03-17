@@ -4,6 +4,9 @@ jobs:
   build:
     name: checkout 
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v6
         name: Checkout code
@@ -23,6 +26,14 @@ jobs:
           ./gradlew bootJar
       - name: Build Docker image
         run: |
-          docker build -t proyecto-cloudcamp-cicd .
-          
+          docker build -t ghcr.io/fabriciovaldivia/proyecto-cloudcamp-cicd .
+      - name: Login to github container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/fabriciovaldivia/proyecto-cloudcamp-cicd
           
