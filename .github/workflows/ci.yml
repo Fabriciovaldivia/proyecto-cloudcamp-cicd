@@ -36,4 +36,37 @@ jobs:
       - name: Push Docker image
         run: |
           docker push ghcr.io/fabriciovaldivia/proyecto-cloudcamp-cicd
-          
+  secrets-dev:
+    name: "secrets-dev"
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Create secrets.txt
+        run: |
+          echo "${{ secrets.DBUSERNAME }}" >> secrets.txt
+          echo "${{ secrets.DBPASSWORD }}" >> secrets.txt
+          echo "${{ secrets.SONARTOKEN }}" >> secrets.txt
+      - name: upload secrets
+        uses: actions/upload-artifact@v7
+        with:
+          name: secrets-dev
+          path: secrets.txt
+  secrets-prod:
+    name: "secrets-prod"
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Create secrets.txt
+        run: |
+          echo "${{ secrets.DBUSERNAME }}" >> secrets.txt
+          echo "${{ secrets.DBPASSWORD }}" >> secrets.txt
+          echo "${{ secrets.SONARTOKEN }}" >> secrets.txt
+      - name: upload secrets
+        uses: actions/upload-artifact@v7
+        with:
+          name: secrets-prod
+          path: secrets.txt
