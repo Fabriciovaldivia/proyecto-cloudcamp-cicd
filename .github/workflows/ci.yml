@@ -36,37 +36,24 @@ jobs:
       - name: Push Docker image
         run: |
           docker push ghcr.io/fabriciovaldivia/proyecto-cloudcamp-cicd
-  secrets-dev:
-    name: "secrets-dev"
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-      - name: Create secrets.txt
-        run: |
-          echo "${{ secrets.DBUSERNAME }}" >> secrets.txt
-          echo "${{ secrets.DBPASSWORD }}" >> secrets.txt
-          echo "${{ secrets.SONARTOKEN }}" >> secrets.txt
-      - name: upload secrets
-        uses: actions/upload-artifact@v7
-        with:
-          name: secrets-dev
-          path: secrets.txt
+
   secrets-prod:
     name: "secrets-prod"
     runs-on: ubuntu-latest
-    environment: prod
+    environment: github.ref_name == 'main' && 'prod' || 'dev'
+    env:
+      target_environment: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Create secrets.txt
         run: |
+          echo "environment: ${{ env.target_environment }}"
           echo "${{ secrets.DBUSERNAME }}" >> secrets.txt
           echo "${{ secrets.DBPASSWORD }}" >> secrets.txt
           echo "${{ secrets.SONARTOKEN }}" >> secrets.txt
       - name: upload secrets
         uses: actions/upload-artifact@v7
         with:
-          name: secrets-prod
+          name: ${{ format('secrets-{0}', github.ref_name == 'main' && 'prod' || 'dev') }}
           path: secrets.txt
