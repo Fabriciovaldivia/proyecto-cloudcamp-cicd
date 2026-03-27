@@ -40,9 +40,9 @@ jobs:
   secrets-prod:
     name: "secrets-prod"
     runs-on: ubuntu-latest
-    environment: if github.ref_name == 'main' && 'prod' || 'dev'
+    environment: github.ref_name == 'main' && 'prod' || 'dev'
     env:
-      target_environment: ${{ if github.ref_name == 'main' && 'prod' || 'dev' }}
+      target_environment: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
