@@ -38,3 +38,5 @@ jobs:
         with:
           push: ${{ github.ref_name == 'main' }}
           tags: ghcr.io/fabriciovaldivia/proyecto-cloudcamp-cicd:latest
+          cache-from: type=gha
+          cache-to: type=gha
