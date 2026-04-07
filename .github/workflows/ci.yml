@@ -2,7 +2,7 @@ name: CI Workflow
 on: [push]
 jobs:
   build:
-    name: checkout 
+    name: build docker image 
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -36,5 +36,5 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
-          push: true
+          push: ${{ github.ref_name == 'main' }}
           tags: ghcr.io/fabriciovaldivia/proyecto-cloudcamp-cicd:latest
